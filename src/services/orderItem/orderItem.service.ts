@@ -5,7 +5,11 @@ import { IOrderItemsService } from './orderItem.service.interface';
 import database from '../../database/database';
 
 class OrderItemService implements IOrderItemsService {
+	save(item: OrderItem): void {
+		this.itemRepo.save(item);
+	}
 	itemRepo = database.getRepository(OrderItem);
+
 	getAllOrderItemsByOrderId = async (orderId: string): Promise<OrderItem[]> => {
 		return await this.itemRepo.findBy({
 			order: {

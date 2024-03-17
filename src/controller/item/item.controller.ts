@@ -53,7 +53,9 @@ class ItemsController implements IItemsController {
 					description,
 					unit,
 					unitPrice,
-					quantityAvailable: item.quantityAvailable + quantityAvailable, //adding prev qty and new qty
+					quantityAvailable: !Number.isNaN(Number(quantityAvailable))
+						? Number(item.quantityAvailable) + Number(quantityAvailable)
+						: item.quantityAvailable, //adding prev qty on top new qty
 				});
 				ok200(res, { ...updatedItem });
 			} else err400(res, { message: 'Item Not Found!' });

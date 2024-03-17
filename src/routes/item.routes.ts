@@ -5,7 +5,7 @@ import ItemsController from '../controller/item/item.controller';
 import RoleMiddleware from '../middlewares/role.middleware';
 import { authInterceptor } from '../middlewares/auth.middleware';
 
-const itemService = new ItemsService();
+export const itemService = new ItemsService();
 const itemsController = new ItemsController(itemService);
 const itemRoutes = Router();
 

@@ -1,3 +1,4 @@
+import { Users } from '../user';
 import { IOrderItem } from './orderItem.interface';
 
 export interface IOrder {

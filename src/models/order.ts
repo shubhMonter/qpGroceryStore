@@ -7,6 +7,7 @@ import {
 	DeleteDateColumn,
 	ManyToOne,
 	OneToMany,
+	JoinColumn,
 } from 'typeorm';
 import { IOrder } from './interface/order.interface';
 import { Users } from './user';
@@ -18,9 +19,11 @@ export class Orders implements IOrder {
 	id?: string;
 
 	@ManyToOne(() => Users, (user: Users) => user.id)
+	@JoinColumn()
 	userId: string;
 
-	@OneToMany(() => OrderItem, (orderItem) => orderItem.order)
+	@OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: ['insert', 'update'] })
+	@JoinColumn()
 	items: OrderItem[];
 
 	@Column('decimal', { precision: 10, scale: 2 })

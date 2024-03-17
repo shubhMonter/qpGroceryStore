@@ -18,7 +18,11 @@ class OrdersService implements IOrdersService {
 		});
 	};
 	getOrderById = async (orderId: string): Promise<Orders | null> => {
-		return await this.orderRepo.findOneBy({ id: orderId });
+		return await this.orderRepo.findOne({
+			where: { id: orderId },
+			relations: ['items'],
+			// select: ['userId'],
+		});
 	};
 
 	updateOrder(Id: string, order: IOrder): Promise<UpdateResult> {

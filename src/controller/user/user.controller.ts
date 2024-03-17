@@ -58,17 +58,20 @@ class UserController implements IUserController {
 	};
 	login = async (req: Request, res: Response) => {
 		let { userId, password } = req.body as unknown as IUser;
-
-		let userExist = await this.userService.getUser(userId as string);
-		if (userExist) {
-			if (await matchEncryptTo(password as string, userExist.password as string)) {
-				delete userExist.password;
-				ok200(res, { ...userExist, token: signJWT(JSON.parse(JSON.stringify(userExist))) });
+		if (userId && password) {
+			const userExist = await this.userService.getUser(userId as string);
+			if (userExist) {
+				if (await matchEncryptTo(password as string, userExist.password as string)) {
+					delete userExist.password;
+					ok200(res, { ...userExist, token: signJWT(JSON.parse(JSON.stringify(userExist))) });
+				} else {
+					err403(res, { message: 'Password Incorrect!!' });
+				}
 			} else {
-				err403(res, { message: 'Password Incorrect!!' });
+				err400(res, { message: 'User Not Found.Please Try Again!' });
 			}
 		} else {
-			err400(res, { message: 'User Not Found.Please Try Again!' });
+			err400(res, { message: 'Bad Request' });
 		}
 	};
 	updateUser = async (req: Request, res: Response) => {
